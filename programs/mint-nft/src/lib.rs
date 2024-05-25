@@ -7,7 +7,7 @@ declare_id!("D7PPVzQqSZmhYnsWRsLgiZ5qgmy2ZiDgEvqWWu91oJs7");
 pub mod mint_nft {
     use anchor_lang::{solana_program::{native_token::LAMPORTS_PER_SOL, program::invoke}, system_program};
     use anchor_spl::{associated_token, token::{self, InitializeMint}};
-    use mpl_token_metadata::{instructions::{CreateMasterEditionV3, CreateMasterEditionV3InstructionArgs, CreateMetadataAccountV3, CreateMetadataAccountV3InstructionArgs}, types::DataV2};
+    use mpl_token_metadata::{instructions::{CreateMasterEditionV3, CreateMasterEditionV3InstructionArgs, CreateMetadataAccountV3, CreateMetadataAccountV3InstructionArgs}, types::{Creator, DataV2}};
 
     use super::*;
 
@@ -78,7 +78,14 @@ pub mod mint_nft {
             collection_details: None,
             data: DataV2 {
                 collection: None,
-                creators: None,
+                creators: Some(
+                    vec![
+                        Creator {
+                            address: ctx.accounts.mint_authority.key(),
+                            share: 100,
+                            verified: true
+                        }
+                    ]),
                 name: metadata_title,
                 symbol: metadata_symbol,
                 uri: metadata_uri,
