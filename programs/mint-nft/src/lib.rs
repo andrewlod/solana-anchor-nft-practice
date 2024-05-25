@@ -6,7 +6,7 @@ declare_id!("D7PPVzQqSZmhYnsWRsLgiZ5qgmy2ZiDgEvqWWu91oJs7");
 #[program]
 pub mod mint_nft {
     use anchor_lang::{solana_program::{native_token::LAMPORTS_PER_SOL, program::invoke}, system_program};
-    use anchor_spl::{associated_token, token};
+    use anchor_spl::{associated_token, token::{self, InitializeMint}};
     use mpl_token_metadata::{instructions::{CreateMasterEditionV3, CreateMasterEditionV3InstructionArgs, CreateMetadataAccountV3, CreateMetadataAccountV3InstructionArgs}, types::DataV2};
 
     use super::*;
