@@ -1,10 +1,12 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { MintNft } from "../target/types/mint_nft";
-import { MPL_TOKEN_METADATA_PROGRAM_ID } from '@metaplex-foundation/mpl-token-metadata';
+import { MPL_TOKEN_METADATA_PROGRAM_ID, fetchDigitalAssetByMetadata } from '@metaplex-foundation/mpl-token-metadata';
 import { associatedAddress } from "@coral-xyz/anchor/dist/cjs/utils/token";
 import { getLocalAccount } from "./util";
 import { ComputeBudgetProgram, Transaction, sendAndConfirmTransaction } from "@solana/web3.js";
+import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+import { assert } from "chai";
 
 describe("mint-nft", () => {
   // Configure the client to use the local cluster.
@@ -76,7 +78,19 @@ describe("mint-nft", () => {
     tx.add(modifyComputeUnits);
     tx.add(addPriorityFee);
     tx.add(mintInstruction);
+    
+    try {
+      await sendAndConfirmTransaction(provider.connection, tx, [walletKeypair, mintKeypair]);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
 
-    await sendAndConfirmTransaction(provider.connection, tx, [walletKeypair, mintKeypair]);
+    const umi = createUmi(provider.connection);
+    const chainMetadata = await fetchDigitalAssetByMetadata(umi, metadataAddress);
+    
+    assert.equal(chainMetadata.metadata.name, nftTitle);
+    assert.equal(chainMetadata.metadata.symbol, nftSymbol);
+    assert.equal(chainMetadata.metadata.uri, nftUri);
   });
 });
