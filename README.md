@@ -74,16 +74,16 @@ In order to build and deploy the application in your development environment wit
 ```sh
 # Generate the binary on-chain program
 anchor build
-# Deploy the program to your devnet
+# Deploy the program to the devnet
 anchor deploy --provider.cluster devnet
 ```
 
 ### Production (mainnet)
-In order to build and deploy the application in your development environment with the Solana devnet, run the following commands:
+In order to build and deploy the application in your development environment with the Solana mainnet, run the following commands:
 ```sh
 # Generate the binary on-chain program
 anchor build
-# Deploy the program to your devnet
+# Deploy the program to the mainnet
 anchor deploy --provider.cluster mainnet
 ```
 
