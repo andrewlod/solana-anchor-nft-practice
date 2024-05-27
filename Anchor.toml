@@ -4,6 +4,9 @@
 resolution = true
 skip-lint = false
 
+[programs.mainnet]
+mint_nft = "D7PPVzQqSZmhYnsWRsLgiZ5qgmy2ZiDgEvqWWu91oJs7"
+
 [programs.devnet]
 mint_nft = "D7PPVzQqSZmhYnsWRsLgiZ5qgmy2ZiDgEvqWWu91oJs7"
 
